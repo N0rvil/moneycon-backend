@@ -6,13 +6,14 @@ module.exports = {
         if (!req.isAuth) {
           throw new Error('Unauthenticated!');
         }
-        const existingCategory = await Category.findOne({ name: args.categoryInput.name });
+        const existingCategory = await Category.findOne({ creator: req.userId , name: args.categoryInput.name, type: args.categoryInput.type });
         if (existingCategory) {
             throw new Error('Category exists already.');
         }
         const category = new Category({
-          name: args.categoryInput.name,
+          name: args.categoryInput.name.toLowerCase(),
           color: args.categoryInput.color,
+          type: args.categoryInput.type,
           creator: req.userId,
         });
         
@@ -33,22 +34,36 @@ module.exports = {
           }
         // return { ...result._doc, _id: result.id };
       },
-      getCategories: async (args, req) => {
+      getIncomeCategories: async (args, req) => {
         if (!req.isAuth) {
           throw new Error('Unauthenticated!');
         }
-        const category = await Category.find({ creator: req.userId })
+        const category = await Category.find({ creator: req.userId, type: 'income' })
         return category.map(category => {
           return category;
         });
     },
+    getSpendingsCategories: async (args, req) => {
+      if (!req.isAuth) {
+        throw new Error('Unauthenticated!');
+      }
+      const category = await Category.find({ creator: req.userId, type: 'spendings' })
+      return category.map(category => {
+        return category;
+      });
+  },
     deleteCategory: async (args, req) => {
         if (!req.isAuth) {
           throw new Error('Unauthenticated!');
         }
-        await Category.deleteOne({ _id: args.categoryId })
+        await Category.deleteOne({ _id: args.deleteCategoryInput.id })
+        await User.findOneAndUpdate(
+          { _id: req.userId },
+          { $pull: { categories: { _id: args.deleteCategoryInput.id } } },
+          { new: true }
+        )
         
-        const category = await Category.find({ creator: req.userId })
+        const category = await Category.find({ creator: req.userId, type: args.deleteCategoryInput.type })
         return category.map(category => {
           return category;
         });

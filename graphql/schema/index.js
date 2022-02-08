@@ -6,6 +6,7 @@ type User {
     email: String!
     password: String
     balance: Int
+    currency: String
 }
 
 type Record {
@@ -14,6 +15,7 @@ type Record {
     category: String!
     amount: Int!
     date: String!
+    toBalance: Int!
     creator: User!
 }
 
@@ -21,6 +23,7 @@ type Category {
     _id: ID!
     name: String!
     color: String!
+    type: String!
     creator: User!
 }
 
@@ -58,14 +61,27 @@ input RecordEditInput {
 input CategoryInput {
     name: String!
     color: String!
+    type: String!
+}
+
+input DeleteCategoryInput {
+    id: ID!
+    type: String!
+}
+
+input ChangeCurrencyInput {
+    currency: String!
 }
 
 type RootQuery {
     login(email: String!, password: String!): AuthData!
     getSession(token: String!): session!
     getIncomeRecords: [Record!]
-    getCategories: [Category!]
+    getSpendingsRecords: [Record!]
+    getIncomeCategories: [Category!]
+    getSpendingsCategories: [Category!]
     getSingleRecord(recordId: ID!): Record!
+    getLastMonthRecords: [Record!]
 }
 
 type RootMutation {
@@ -74,7 +90,8 @@ type RootMutation {
     editRecord(recordInput: RecordEditInput): Record
     deleteRecord(recordId: ID!): Record
     createCategory(categoryInput: CategoryInput): Category
-    deleteCategory(categoryId: ID!): [Category!]
+    deleteCategory(deleteCategoryInput: DeleteCategoryInput): [Category!]
+    changeCurrency(changeCurrencyInput: ChangeCurrencyInput): User
 }
 
 schema {

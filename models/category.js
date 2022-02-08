@@ -11,6 +11,10 @@ const categorySchema = new Schema({
         type: String,
         required: true,
     },
+    type: {
+        type: String,
+        required: true,
+    },
     creator: {
         type: Schema.Types.ObjectId,
         ref: 'User'

@@ -19,6 +19,10 @@ const recordSchema = new Schema({
         type: Date,
         required: true,
     },
+    toBalance: {
+        type: Number,
+        required: true,
+    },
     creator: {
         type: Schema.Types.ObjectId,
         ref: 'User'

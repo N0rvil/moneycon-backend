@@ -3,6 +3,8 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../../models/user');
 const Session = require('../../models/session');
+const Category = require('../../models/category');
+const Record = require('../../models/record');
 
 module.exports = {
   createUser: async args => {
@@ -17,6 +19,29 @@ module.exports = {
         email: args.userInput.email,
         password: hashedPassword
       });
+
+      if (user) {
+        const category = new Category({ 
+          name: 'sallary',
+          color: '#00FF19',
+          type: 'income',
+          creator: user._id
+        })
+
+        if (category) {
+          const record = new Record({
+            type: 'income',
+            category: 'sallary',
+            amount: 0,
+            date: new Date(),
+            toBalance: 0,
+            creator: user._id,
+          })
+
+          const resRec = await record.save();
+        }
+        const resCat = await category.save();
+      }
 
       const result = await user.save();
 
