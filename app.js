@@ -8,7 +8,7 @@ const graphQlSchema = require('./graphql/schema/index');
 const graphQlResolvers = require('./graphql/resolvers/index');
 const auth = require('./middleware/is-auth');
 
-const PORT = 3005;
+const PORT = process.env.PORT || 3005;
 
 MONGOSE_URI = process.env.MONGO_URI;
 

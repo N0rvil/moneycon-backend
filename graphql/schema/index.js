@@ -73,6 +73,11 @@ input ChangeCurrencyInput {
     currency: String!
 }
 
+input ChangePasswordInput {
+    oldPassword: String!
+    newPassword: String!
+}
+
 type RootQuery {
     login(email: String!, password: String!): AuthData!
     getSession(token: String!): session!
@@ -92,6 +97,7 @@ type RootMutation {
     createCategory(categoryInput: CategoryInput): Category
     deleteCategory(deleteCategoryInput: DeleteCategoryInput): [Category!]
     changeCurrency(changeCurrencyInput: ChangeCurrencyInput): User
+    changePassword(changePasswordInput: ChangePasswordInput): User
 }
 
 schema {
