@@ -5,6 +5,9 @@ const User = require('../../models/user');
 const Session = require('../../models/session');
 const Category = require('../../models/category');
 const Record = require('../../models/record');
+require('dotenv').config()
+
+SECRET_KEY = process.env.SECRET_KEY;
 
 module.exports = {
   createUser: async args => {
@@ -59,7 +62,8 @@ module.exports = {
     if (!isEqual) {
       throw new Error ('Password is incorrect!');
     }
-    const token = jwt.sign({ userId: user.id, email: user.email, time: new Date() }, 'somesupersercretkey', {
+    
+    const token = jwt.sign({ userId: user.id, email: user.email, time: new Date() }, SECRET_KEY, {
       expiresIn: '1h'
     });
 
