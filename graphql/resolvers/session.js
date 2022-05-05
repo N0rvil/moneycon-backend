@@ -1,5 +1,4 @@
 const Session = require('../../models/session');
-// const User = require('../../models/user');
 const { user }= require('./merge');
 
 module.exports = {
@@ -11,8 +10,6 @@ module.exports = {
     if (token !== session.token) {
       throw new Error ('Token is incorrect!');
     }
-
-    // const user = await User.findOne({ _id: session.creator })
 
     return { creator: user(session.creator) }
   }

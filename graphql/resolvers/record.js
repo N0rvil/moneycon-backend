@@ -12,7 +12,6 @@ module.exports = {
     if (!creator) {
       throw new Error('User not found.');
     }
-
     const record = new Record({
       type: args.recordInput.type,
       category: args.recordInput.category,

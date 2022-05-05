@@ -5,7 +5,7 @@ type User {
     _id: ID!
     email: String!
     password: String
-    balance: Int
+    balance: Float
     currency: String
 }
 
@@ -13,9 +13,9 @@ type Record {
     _id: ID!
     type: String!
     category: String!
-    amount: Int!
+    amount: Float!
     date: String!
-    toBalance: Int!
+    toBalance: Float!
     creator: User!
 }
 
